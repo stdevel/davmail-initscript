@@ -1,0 +1,60 @@
+#!/bin/bash
+# chkconfig: 2345 95 20
+# description: DavMail gateway service
+# Service implementing the DavMail gateway
+# processname: java
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+#Location where DavMail is installed (NO trailing slash!)
+DAVMAIL_LOCATION="/opt/davmail"
+
+#DavMail configuration file
+DAVMAIL_CONF="$DAVMAIL_LOCATION/davmail.properties"
+
+start() {
+        echo -n "Starting DavMail gateway: "
+        $DAVMAIL_LOCATION/davmail.sh $DAVMAIL_CONF 1>/dev/null 2>&1 &
+        touch /var/lock/subsys/davmail
+        success $"davmail startup"
+        echo ""
+        return 0
+}
+
+stop() {
+        echo -n "Shutting down DavMail gateway: "
+        kill $(pgrep -f $DAVMAIL_CONF) 1>/dev/null 2>&1
+        rm -f /var/lock/subsys/davmail
+        success $"davmail shutdown"
+        echo ""
+        return 0
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        if [[ "$(pgrep -f $DAVMAIL_CONF)" == "" && -f /var/lock/subsys/davmail ]]; then
+                echo "DavMail gateway dead but subsys locked"
+        elif [ "$(pgrep -f $DAVMAIL_CONF|wc -l)" == "1" ]; then
+                echo "DavMail gateway seems to be working fine..."
+        else
+                echo "DavMail gateway is NOT running."
+        fi
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: <davmail> {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+exit $?
