@@ -5,4 +5,5 @@ This repository includes Linux initscripts for the [DavMail](http://davmail.sour
 
 Files
 =====
-  * ``davmail-el6`` - Initscript for Enterprise Linux-like distros using SysV-init (*e.g. CentOS/RHEL/SL 6, Fedora,...*)
+  * ``davmail-upstart`` - init script for distros using Upstart (*e.g. CentOS/RHEL/SL 6, Fedora,...*)
+  * ``davmail-systemd`` - service configuration for distros using systemd
