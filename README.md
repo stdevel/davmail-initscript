@@ -7,3 +7,4 @@ Files
 =====
   * ``davmail-sysvinit`` - init script for distros using SysV-init (*e.g. CentOS/RHEL/SL 6, Fedora,...*)
   * ``davmail-systemd`` - service configuration for distros using systemd
+  * ``davmail-upstart`` - init script for distros using upstart (*e.g. Ubuntu, CentOS/RHEL/SL 6,...*)
